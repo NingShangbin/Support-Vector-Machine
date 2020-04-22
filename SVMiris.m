@@ -1,0 +1,23 @@
+function [acc]=SVMiris(label,data)
+tic;
+A=data(1:50,:);%A=data(1:50,:);%%59
+B=data(51:100,:);%B=data(60:130,:);%%71
+c=1;
+n1=size(A,1);
+n2=size(B,1);
+trainA=A(1:n1-10,:);%%49
+trainB=B(1:n2-10,:);%%61
+X=[trainA;trainB];
+e1=ones(size(trainA,1),1);%%148*1
+e2=ones(size(trainB,1),1);%%148*1
+e=[e1;e2];
+D=blkdiag(eye(40),-eye(40));
+[alpha,w,b]=my(X,e,c,D);
+%%%
+testA=A(n1-9:n1,:);
+testB=B(n2-9:n2,:);
+testdata=[testA;testB];
+testlabel=[ones(10,1);-ones(10,1)];
+[acc]=mytest(testdata,testlabel,w,b);
+toc;
+%%%
